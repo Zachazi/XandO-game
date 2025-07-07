@@ -41,3 +41,46 @@ public class XandO {
         welcomeFrame.add(player2Field);
 
         JButton continueButton = new JButton("Continue");
+    continueButton.addActionListener(e -> {
+        player1Name = player1Field.getText().trim().isEmpty() ? "Player 1" : player1Field.getText().trim();
+        player2Name = player2Field.getText().trim().isEmpty() ? "Player 2" : player2Field.getText().trim();
+        currentPlayer = player1Name;
+        welcomeFrame.dispose();
+        initGame();
+    });
+    welcomeFrame.add(continueButton);
+
+    welcomeFrame.setVisible(true);
+}
+
+void initGame() {
+    gameFrame = new JFrame("XandO game");
+    gameFrame.setSize(600, 700);
+    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    gameFrame.setLayout(new BorderLayout());
+    gameFrame.setLocationRelativeTo(null);
+    gameFrame.setResizable(true);
+
+    JPanel topPanel = new JPanel(new GridLayout(3, 1));
+
+    statusLabel = new JLabel(currentPlayer + "'s Turn", SwingConstants.CENTER);
+    statusLabel.setFont(new Font("Arial", Font.BOLD, 32));
+    statusLabel.setOpaque(true);
+    statusLabel.setBackground(Color.darkGray);
+    statusLabel.setForeground(Color.white);
+    topPanel.add(statusLabel);
+
+    scoreLabel = new JLabel(getScoreText(), SwingConstants.CENTER);
+    scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+    scoreLabel.setOpaque(true);
+    scoreLabel.setBackground(Color.lightGray);
+    scoreLabel.setForeground(Color.black);
+    topPanel.add(scoreLabel);
+
+    JButton resetScoreButton = new JButton("Reset Scores");
+    resetScoreButton.setFocusable(false);
+    resetScoreButton.addActionListener(e -> {
+        player1Score = 0;
+        player2Score = 0;
+        scoreLabel.setText(getScoreText());
+    });
