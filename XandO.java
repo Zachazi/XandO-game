@@ -84,3 +84,46 @@ void initGame() {
         player2Score = 0;
         scoreLabel.setText(getScoreText());
     });
+    topPanel.add(resetScoreButton);
+
+    gameFrame.add(topPanel, BorderLayout.NORTH);
+
+    JPanel boardPanel = new JPanel(new GridLayout(3, 3));
+    boardPanel.setBackground(Color.darkGray);
+    gameFrame.add(boardPanel, BorderLayout.CENTER);
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
+            JButton button = new JButton();
+            board[r][c] = button;
+            button.setFont(new Font("Arial", Font.BOLD, 120));
+            button.setFocusable(false);
+            button.setBackground(Color.darkGray);
+            button.setForeground(Color.white);
+
+            final int row = r, col = c;
+            button.addActionListener(e -> {
+                if (gameOver || !button.getText().equals("")) return;
+
+                button.setText(currentPlayer.equals(player1Name) ? "X" : "O");
+                turns++;
+                checkWinner();
+
+                if (!gameOver) {
+                    currentPlayer = currentPlayer.equals(player1Name) ? player2Name : player1Name;
+                    statusLabel.setText(currentPlayer + "'s Turn");
+                }
+            });
+
+            boardPanel.add(button);
+        }
+    }
+
+    gameFrame.setVisible(true);
+}
+
+void checkWinner() {
+    for (int i = 0; i < 3; i++) {
+        // Check rows
+        if (!board[i][0].getText().equals("") &&
+                board[i][0].getText().equals(board[i][1].getText()) &&
