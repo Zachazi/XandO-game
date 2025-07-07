@@ -169,3 +169,47 @@ void checkWinner() {
             btn.setBackground(Color.green);
         }
     }
+
+   void showWinner(String winner) {
+        gameOver = true;
+        if (winner.equals(player1Name)) player1Score++;
+        else if (winner.equals(player2Name)) player2Score++;
+
+        disableBoard();
+        scoreLabel.setText(getScoreText());
+
+        JOptionPane.showMessageDialog(gameFrame, winner + " Wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        restartGame();
+    }
+
+    void disableBoard() {
+        for (JButton[] row : board)
+            for (JButton btn : row)
+                btn.setEnabled(false);
+    }
+
+    void restartGame() {
+        int response = JOptionPane.showConfirmDialog(gameFrame, "Do you want to play again?", "Restart", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.YES_OPTION) {
+            turns = 0;
+            gameOver = false;
+            currentPlayer = player1Name;
+            statusLabel.setText(currentPlayer + "'s Turn");
+            scoreLabel.setText(getScoreText());
+
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 3; c++) {
+                    board[r][c].setText("");
+                    board[r][c].setEnabled(true);
+                    board[r][c].setBackground(Color.darkGray);
+                }
+            }
+        } else {
+            System.exit(0);
+        }
+    }
+
+    String getScoreText() {
+        return player1Name + " (X): " + player1Score + "  |  " + player2Name + " (O): " + player2Score;
+    }
+}
