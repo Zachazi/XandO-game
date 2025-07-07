@@ -127,3 +127,45 @@ void checkWinner() {
         // Check rows
         if (!board[i][0].getText().equals("") &&
                 board[i][0].getText().equals(board[i][1].getText()) &&
+                board[i][1].getText().equals(board[i][2].getText())) {
+                highlightWinningLine(new JButton[]{board[i][0], board[i][1], board[i][2]});
+                showWinner(currentPlayer);
+                return;
+            }
+            // Check columns
+            if (!board[0][i].getText().equals("") &&
+                    board[0][i].getText().equals(board[1][i].getText()) &&
+                    board[1][i].getText().equals(board[2][i].getText())) {
+                highlightWinningLine(new JButton[]{board[0][i], board[1][i], board[2][i]});
+                showWinner(currentPlayer);
+                return;
+            }
+        }
+
+        // Diagonals
+        if (!board[0][0].getText().equals("") &&
+                board[0][0].getText().equals(board[1][1].getText()) &&
+                board[1][1].getText().equals(board[2][2].getText())) {
+            highlightWinningLine(new JButton[]{board[0][0], board[1][1], board[2][2]});
+            showWinner(currentPlayer);
+            return;
+        }
+        if (!board[0][2].getText().equals("") &&
+                board[0][2].getText().equals(board[1][1].getText()) &&
+                board[1][1].getText().equals(board[2][0].getText())) {
+            highlightWinningLine(new JButton[]{board[0][2], board[1][1], board[2][0]});
+            showWinner(currentPlayer);
+            return;
+        }
+
+        if (turns == 9) {
+            JOptionPane.showMessageDialog(gameFrame, "It's a Tie!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            restartGame();
+        }
+    }
+
+    void highlightWinningLine(JButton[] buttons) {
+        for (JButton btn : buttons) {
+            btn.setBackground(Color.green);
+        }
+    }
